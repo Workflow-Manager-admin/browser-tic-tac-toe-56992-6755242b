@@ -1,0 +1,246 @@
+:root {
+  --ttt-accent: #FFD600;
+  --ttt-primary: #1976D2;
+  --ttt-secondary: #424242;
+  --ttt-light-bg: #fff;
+  --ttt-dark-bg: #eeeeee;
+  --ttt-border: #E0E0E0;
+  --text-color: #1A1A1A;
+  --x-color: var(--ttt-primary);
+  --o-color: var(--ttt-secondary);
+  --winner-glow: 0 0 12px var(--ttt-accent);
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  background: var(--ttt-light-bg);
+  color: var(--text-color);
+  min-height: 100vh;
+}
+
+.ttt-app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background: var(--ttt-light-bg);
+}
+
+main {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ttt-title {
+  margin-top: 24px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 2.35rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: var(--ttt-primary);
+}
+
+.ttt-status-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 310px;
+  background: var(--ttt-dark-bg);
+  border-radius: 12px;
+  border: 1.5px solid var(--ttt-border);
+  padding: 16px 0 10px 0;
+  margin-bottom: 20px;
+  gap: 7px;
+  box-shadow: 0 1px 10px rgba(60,60,60,0.06);
+}
+
+.ttt-scores {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 5px;
+  font-size: 1.08rem;
+  font-weight: 500;
+}
+
+.ttt-x { color: var(--x-color); }
+.ttt-o { color: var(--o-color); }
+
+.ttt-status-text {
+  width: 100%;
+  text-align: center;
+  margin: 4px 0;
+  font-size: 1.11rem;
+  font-weight: 520;
+  color: var(--ttt-secondary);
+  letter-spacing: .07em;
+}
+
+.ttt-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 3px;
+}
+
+.btn {
+  background-color: var(--ttt-accent);
+  color: #131313;
+  border: none;
+  border-radius: 4px;
+  padding: 9px 18px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 1px 5px rgba(60,60,60,0.05);
+  transition: background 0.2s;
+  outline: none;
+}
+
+.btn:active,
+.btn:focus {
+  background: #ffe870;
+}
+.btn:hover {
+  background: #ffe370;
+}
+
+.btn-small {
+  font-size: 0.96rem;
+  padding: 7px 12px;
+}
+.btn-secondary {
+  background: var(--ttt-primary);
+  color: #fff;
+}
+.btn-secondary:active,
+.btn-secondary:focus,
+.btn-secondary:hover {
+  background: #2994fc;
+}
+
+.ttt-board-ct {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px auto;
+  min-height: 280px;
+  width: fit-content;
+}
+
+.ttt-board {
+  display: grid;
+  grid-template-columns: repeat(3, 62px);
+  grid-template-rows: repeat(3, 62px);
+  gap: 9px;
+  background: transparent;
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: 0 1px 12px rgba(60,60,60,0.06);
+}
+
+.ttt-square {
+  width: 62px;
+  height: 62px;
+  background: #fff;
+  border: 1.5px solid var(--ttt-border);
+  border-radius: 11px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+  font-size: 2.25rem;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  outline: none;
+  user-select: none;
+  transition: border-color 0.21s, box-shadow 0.21s;
+  will-change: border-color, box-shadow;
+}
+.ttt-square:focus {
+  border: 2.5px solid var(--ttt-primary);
+}
+.ttt-square:active {
+  border-color: var(--ttt-secondary);
+}
+.ttt-square.highlight {
+  border-color: var(--ttt-accent);
+  box-shadow: var(--winner-glow);
+  animation: ttt-glow 0.5s 2 alternate;
+}
+
+@keyframes ttt-glow {
+  0% { box-shadow: none; }
+  100% { box-shadow: var(--winner-glow); }
+}
+
+.ttt-piece {
+  font-weight: 700;
+  display: inline-block;
+  opacity: 1;
+  transition: color 0.16s, transform 0.13s;
+}
+
+.player-X { color: var(--x-color); text-shadow: 0 1px 4px #1976d23c; }
+.player-O { color: var(--o-color); text-shadow: 0 1px 4px #42424238; }
+
+.ttt-square:not(.highlight):hover .ttt-piece:not(:empty) {
+  transform: scale(1.1);
+  transition: transform 0.17s;
+}
+
+/* Board piece place-in animation */
+.ttt-piece:not(:empty) {
+  animation: ttt-piece-in 0.22s ease;
+}
+
+@keyframes ttt-piece-in {
+  from { opacity: 0; transform: scale(0.7); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.ttt-newgame-hint {
+  margin-top: 8px;
+  color: var(--ttt-secondary);
+  font-size: 0.98rem;
+  opacity: 0.75;
+  text-align: center;
+}
+
+.ttt-footer {
+  margin-top: 42px;
+  color: var(--ttt-secondary);
+  font-size: 0.94rem;
+  opacity: 0.74;
+  text-align: center;
+}
+.ttt-footer-link {
+  color: var(--ttt-primary);
+  text-decoration: none;
+  padding: 2px 6px;
+}
+.ttt-footer-link:hover { text-decoration: underline; }
+
+@media (max-width: 540px) {
+  .ttt-board {
+    grid-template-columns: repeat(3, 44px);
+    grid-template-rows: repeat(3, 44px);
+    padding: 6px;
+    gap: 6px;
+  }
+  .ttt-app main, main {
+    width: 100vw;
+    padding: 0;
+  }
+  .ttt-status-bar { width: 95vw; min-width: 210px; }
+}
